@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <string.h>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <errno.h>
 
 void getFileType(char * binaryName){
     char mycmd[256];
     snprintf(mycmd,sizeof(mycmd),"%s %s", "file", binaryName);
     printf("%s\n", mycmd);
-    system(mycmd);
-   
+    //system(mycmd);
+    execlp("/usr/bin/file", "file", binaryName,NULL);//ends program
+    
 }
 
 void checkStackProtections(char * binaryName){
@@ -24,26 +26,39 @@ void checkSyscalls(char *binaryName){
     pid_t p;
     int fd[2];
     int nbytes;
+    int status = 0;
     pipe(fd);
+     pid_t wpid;
 
     p = fork();
     if(p<0){
         perror("fork failed\n");
         exit(1);
     }else if(p==0){
-        int parentPid;
-        close(fd[1]);
-        nbytes = read(fd[0],&parentPid,sizeof(pid_t));
-        printf("This is child %s parent's pid=%d\n", binaryName, parentPid);
+        /*char msg[] = "Hello from child\n";
+        close(fd[0]);
+        write(fd[1],msg,sizeof(msg));
+        printf("This is child %s \n", binaryName);*/
+
+      
+        printf("child exe\n");
+        
+        if(execlp("/usr/bin/objdump","objdump","-d",binaryName,(char*)NULL) ==-1){
+            printf("execlp error %s\n", strerror(errno));
+        }//gives segfault
+        
         exit(0);
         
     }else{
-        int x =100;
-        close(fd[0]);
-        write(fd[1],&p,sizeof(p));
-        printf("This is parent %s pid=%d\n", binaryName,p);
+        /*close(fd[1]);
+        char * msg;
+        nbytes = read(fd[0],msg,sizeof(char)*18);
+        printf("This is parent %s string %s\n", binaryName,msg);*/
         //wait for child to terminate
         //this might be the cause of the timing issue
+        
+        while ((wpid = wait(&status)) > 0); // the parent waits for all the child processes 
+        printf("Waited\n");
     }
 }
 int main(int argc, char *argv[]){
