@@ -1,0 +1,11 @@
+gets
+strcat
+strcpy
+sprintf
+atof
+atoll
+atoi
+atoll
+scanf
+fscanf
+realpath
