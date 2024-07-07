@@ -5,14 +5,48 @@
 #include <sys/wait.h>
 #include <errno.h>
 
-void getFileType(char * binaryName){
-    char mycmd[256];
-    snprintf(mycmd,sizeof(mycmd),"%s %s", "file", binaryName);
-    printf("%s\n", mycmd);
-    //system(mycmd);
-    execlp("/usr/bin/file", "file", binaryName,NULL);//ends program
+void readFileToArray(char *filename, char **retArr){
+    int i=0;
+    char buffer[50];
+    FILE *f = fopen(filename,"r");
+    if(f==NULL){
+        fprintf(stderr, "Couldn't open %s: %s\n", "unsafe_functions.txt", strerror(errno));
+        exit(1);
+    }
     
+   while(fgets(buffer,50,f)!=NULL){
+        retArr[i] = strndup(buffer,50);
+        i++;
+    }
+    fclose(f);
 }
+
+void getFileType(char *binaryName){
+    pid_t p;
+    int fd[2];
+    int nbytes;
+    int status = 0;
+    pipe(fd);
+     pid_t wpid;
+
+    p = fork();
+    if(p<0){
+        perror("fork failed\n");
+        exit(1);
+    }else if(p==0){
+        printf("child exe\n");
+        
+        if(execlp("/usr/bin/file", "file", binaryName,(char*)NULL) ==-1){
+            printf("execlp error %s\n", strerror(errno));
+        } 
+        exit(0);
+        
+    }else{
+        while ((wpid = wait(&status)) > 0); // the parent waits for all the child processes 
+        printf("Waited\n");
+    }
+}
+
 
 void checkStackProtections(char * binaryName){
     char mycmd[256];
@@ -45,7 +79,7 @@ void checkSyscalls(char *binaryName){
         
         if(execlp("/usr/bin/objdump","objdump","-d",binaryName,(char*)NULL) ==-1){
             printf("execlp error %s\n", strerror(errno));
-        }//gives segfault
+        }
         
         exit(0);
         
@@ -56,23 +90,43 @@ void checkSyscalls(char *binaryName){
         printf("This is parent %s string %s\n", binaryName,msg);*/
         //wait for child to terminate
         //this might be the cause of the timing issue
-        
+        int n = 10; //number of items in array
+        int i=0;
+        char **funcList = (char**)malloc((n+1)*sizeof(char));
+        for(i=0;i<n;i++){
+            funcList[i] = (char*)malloc(50*sizeof(char));
+        }
         while ((wpid = wait(&status)) > 0); // the parent waits for all the child processes 
         printf("Waited\n");
+        readFileToArray("unsafe_functions.txt", funcList);
+        for(i=0;i<n;i++){
+            printf("%s\n", funcList[i]);
+        }
+        for(i=0;i<n;i++){
+            free(funcList[i]);
+        }
+        free(funcList);
+        printf("freed\n");
     }
 }
+
 int main(int argc, char *argv[]){
     char *binaryName;
     int leaveMenu=0;
     char inputBuffer[2];
     int menuOption;
     
+   
 
-     if(!argv[1]){
+    //Program arguments
+    if(!argv[1]){
         printf("Please enter file/binary like:\n\tchecker example.exe\n");
         exit(1);
     }
     binaryName = argv[1];
+    
+    
+    
     while(leaveMenu==0){
         printf("\033[0;31m");//red
         printf("1.Get File type\n2.Check stack protections by running checksec\n3.Check unsafe syscalls\n");
