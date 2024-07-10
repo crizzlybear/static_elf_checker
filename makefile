@@ -10,4 +10,5 @@ GetFileType.o: GetFileType.c commonHeaders.h modules.h
 	gcc -c GetFileType.c
 ReadFileToArray.o: ReadFileToArray.c commonHeaders.h modules.h
 	gcc -c ReadFileToArray.c
-clean: rm -f checker checker.o CheckStackProtections.o CheckSyscalls.o GetFileType.o ReadFileToArray.o
+clean: 
+	rm -f checker checker.o CheckStackProtections.o CheckSyscalls.o GetFileType.o ReadFileToArray.o
