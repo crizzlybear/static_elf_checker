@@ -30,7 +30,7 @@ void checkSyscalls(char *binaryName){
         char msg[1000];//not enough characters...
         int n = 10; //number of items in array
         int i=0;
-        char **funcList = (char**)malloc((n+1)*sizeof(char));
+        char **funcList = (char**)malloc((n+1)*sizeof(char*));
 
         for(i=0;i<n;i++){
             funcList[i] = (char*)malloc(50*sizeof(char));
@@ -51,6 +51,7 @@ void checkSyscalls(char *binaryName){
         for(i=0;i<n;i++){
             free(funcList[i]);
         }
+        free(funcList);//added back, issue was funcList incorrectly malloced
         printf("freed\n");
     }
 }
