@@ -10,7 +10,8 @@ void readFileToArray(char *filename, char **retArr){
     }
     
    while(fgets(buffer,50,f)!=NULL){
-        retArr[i] = strndup(buffer,50);
+        free(retArr[i]);
+        retArr[i] = strndup(buffer,50);//copy string to buffer
         i++;
     }
     fclose(f);
