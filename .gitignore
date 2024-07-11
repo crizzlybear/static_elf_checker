@@ -1,4 +1,6 @@
 program
 program.c
+program2
+program2.c
 checker
 *.o

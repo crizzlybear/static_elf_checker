@@ -1,5 +1,5 @@
-program: checker.o CheckStackProtections.o CheckSyscalls.o GetFileType.o ReadFileToArray.o 
-	gcc checker.o CheckStackProtections.o CheckSyscalls.o GetFileType.o ReadFileToArray.o -o checker
+program: checker.o CheckStackProtections.o CheckSyscalls.o GetFileType.o ReadFileToArray.o StrMatch.o
+	gcc checker.o CheckStackProtections.o CheckSyscalls.o GetFileType.o ReadFileToArray.o  StrMatch.o -o checker
 checker.o: checker.c commonHeaders.h modules.h 
 	gcc -c checker.c
 CheckStackProtections.o: CheckStackProtections.c commonHeaders.h modules.h
@@ -10,5 +10,6 @@ GetFileType.o: GetFileType.c commonHeaders.h modules.h
 	gcc -c GetFileType.c
 ReadFileToArray.o: ReadFileToArray.c commonHeaders.h modules.h
 	gcc -c ReadFileToArray.c
+StrMatch.o: StrMatch.c commonHeaders.h modules.h
 clean: 
-	rm -f checker checker.o CheckStackProtections.o CheckSyscalls.o GetFileType.o ReadFileToArray.o
+	rm -f checker checker.o CheckStackProtections.o CheckSyscalls.o GetFileType.o ReadFileToArray.o StrMatch.o
