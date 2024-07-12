@@ -8,6 +8,8 @@ void strMatch(char **funcList, int funcListLen, char *msg, char**returnList){
     char * token2;
     char *saved = msg;
     char *saved2;
+    char * res;
+    char * saved3;
     //printf("ws msg %s\n", msg);
     
     while((token = strtok_r(saved, "\n", &saved))!=NULL){
@@ -21,7 +23,9 @@ void strMatch(char **funcList, int funcListLen, char *msg, char**returnList){
             if(match){
                 // printf("MATCH\n");
                 free(returnList[j]);
-                returnList[j]=strndup(token, strlen(token));//something here is causing a mem leak, probably token
+                saved3=token;
+                res = strtok_r(saved3," ",&saved);//remove whitespace
+                returnList[j]=strndup(saved3, strlen(saved3));//something here is causing a mem leak, probably token
                 //printf("found!\n");
                 //j++;
             }

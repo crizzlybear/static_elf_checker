@@ -56,9 +56,11 @@ void checkSyscalls(char *binaryName){
 
         //open text file to read functions
         readFileToArray("unsafe_functions.txt", funcList);
-        for(i=0;i<n;i++){
-            printf("%s\n", funcList[i]);
-        }
+        // for(i=0;i<n;i++){
+        //     printf("%s\n", funcList[i]);
+        // }
+
+        
         // if(msg!=NULL){
         //     printf("len of msg: %ld\n", strlen(msg));
         // }else{
