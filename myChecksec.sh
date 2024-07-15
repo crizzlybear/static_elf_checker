@@ -1,6 +1,6 @@
 #!/bin/bash
-# read binaryName
-binaryName="program2"
+binaryName=$1
+# binaryName="program2"
 # readelf -h $binaryName | grep ""
 
 #PIE
