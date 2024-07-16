@@ -30,20 +30,20 @@ void checkSyscalls(char *binaryName){
         close(fd[1]);
         // char msg[1000];//not enough characters...
         int maxSize=5000;
-        char * msg = (char*)malloc(maxSize * sizeof(char));
+        char * msg = (char*)calloc(maxSize, sizeof(char));
         int n = 10+1; //number of items in array
         int i=0;
-        char **funcList = (char**)malloc((n)*sizeof(char*));
-        char ** returnList = (char**)malloc((n)*sizeof(char*));
+        char **funcList = (char**)calloc((n),sizeof(char*));
+        char ** returnList = (char**)calloc((n),sizeof(char*));
 
         for(i=0;i<n;i++){
-            funcList[i] = (char*)malloc(50*sizeof(char));
+            funcList[i] = (char*)calloc(50,sizeof(char));
            
         }
 
 
         for(i=0;i<n;i++){
-            returnList[i] = (char*)malloc(50*sizeof(char));
+            returnList[i] = (char*)calloc(50,sizeof(char));
            
         }
 
