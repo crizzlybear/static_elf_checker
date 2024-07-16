@@ -20,15 +20,15 @@ void checkStackProtections(char *binaryName){
             perror("checkSyscalls(): dup2 failed for stdout\n");
         }    
         close(fd[1]);
-        if(execlp("./myChecksec.sh","./myChecksec.sh", binaryName,(char*)NULL) ==-1){
-            printf("execlp error %s\n", strerror(errno));
+        if(execlp("./myChecksec.sh","./myChecksec.sh",binaryName,(char*)NULL) ==-1){
+            printf("execlp error %s\nTry running script separately, if bad interpreter error, use dos2unix \n", strerror(errno));
         }
         exit(0);
         
     }else{
         close(fd[1]);
-        int maxSize=5000;
-        char * msg = (char*)malloc(maxSize * sizeof(char));
+        int maxSize=150;
+        char * msg = (char*)calloc(maxSize,sizeof(char));
         int i=0;
     
         //Parent waits for all the child processes 
