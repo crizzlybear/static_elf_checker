@@ -13,7 +13,7 @@ void getFileType(char *binaryName){
         perror("fork failed\n");
         exit(1);
     }else if(p==0){
-        printf("child exe\n");
+        // printf("child exe\n");
         
         if(execlp("/usr/bin/file", "file", binaryName,(char*)NULL) ==-1){
             printf("execlp error %s\n", strerror(errno));
@@ -22,6 +22,6 @@ void getFileType(char *binaryName){
         
     }else{
         while ((wpid = wait(&status)) > 0); // the parent waits for all the child processes 
-        printf("Waited\n");
+        // printf("Waited\n");
     }
 }

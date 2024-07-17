@@ -15,7 +15,7 @@ void checkSyscalls(char *binaryName){
         exit(1);
     }else if(p==0){
         close(fd[0]);
-        printf("child exe\n");
+        // printf("child exe\n");
         if(dup2(fd[1], fileno(stdout))==-1){//stdout redirect to fd[1]
             perror("checkSyscalls(): dup2 failed for stdout\n");
         }    
@@ -49,10 +49,10 @@ void checkSyscalls(char *binaryName){
 
         //Parent waits for all the child processes 
         while ((wpid = wait(&status)) > 0); 
-        printf("Waited\n");
+        // printf("Waited\n");
         //Read from child
         nbytes = read(fd[0], msg, maxSize);
-        printf("This is parent: %s\n", binaryName);
+        // printf("This is parent: %s\n", binaryName);
 
         //open text file to read functions
         readFileToArray("unsafe_functions.txt", funcList);
@@ -80,14 +80,11 @@ void checkSyscalls(char *binaryName){
             }
             
         }
-        
 
         for(i=0;i<n;i++){
             free(returnList[i]);
         }
         free(returnList);//added back, issue was funcList incorrectly malloced
-
-
 
         for(i=0;i<n;i++){
             free(funcList[i]);
@@ -95,9 +92,6 @@ void checkSyscalls(char *binaryName){
         free(funcList);//added back, issue was funcList incorrectly malloced
         
         free(msg);
-
-       
-
-        printf("freed\n");
+        // printf("freed\n");
     }
 }

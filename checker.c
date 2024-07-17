@@ -29,8 +29,8 @@ int main(int argc, char *argv[]){
             fgets(inputBuffer,2,stdin);
         }
         printf("\033[0;31m");//red
-        printf("Menu selected: %d\n", menuOption);
-        printf("\033[0m");//reset
+        printf("Menu selected: %d\033[0m\n", menuOption);//fixes the miscoloring issue
+        // printf("\033[0m");//reset
         switch(menuOption){
             case 1://1.Get File type
                 getFileType(binaryName);
