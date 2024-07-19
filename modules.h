@@ -3,3 +3,4 @@ void getFileType(char *binaryName);
 void checkSyscalls(char *binaryName);
 void checkStackProtections(char * binaryName);
 void strMatch(char **funcList, int funcListLen, char *msg, char**returnList);
+void checkPacker(char *binaryName);

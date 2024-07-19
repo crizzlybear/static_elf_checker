@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
     
     while(leaveMenu==0){
         printf("\033[0;31m");//red
-        printf("1.Get File type\n2.Check stack protections by running checksec\n3.Check unsafe syscalls\n");
+        printf("1.Get File type\n2.Check stack protections by running checksec\n3.Check unsafe syscalls\n4.Check if packer used\n");
         printf("\033[0m");//reset 
         printf("Menu option\n:");
         fflush(stdout);
@@ -40,6 +40,9 @@ int main(int argc, char *argv[]){
                 break;
             case 3://3.Check unsafe syscalls
                 checkSyscalls(binaryName);
+                break;
+            case 4:
+                checkPacker(binaryName);
                 break;
             default:
                 printf("Goodbye!\n");
